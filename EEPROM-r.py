@@ -13,14 +13,14 @@ for pin in io_pin_list:
 for pin in adr_pin_list:
     adr.append(DigitalOutputDevice(pin=pin))
 
-var1 = int(input("0x"), 16)
-var2 = int(input("0x"), 16)
+adr1 = int(input("0x"), 16)
+adr2 = int(input("0x"), 16)
 
-if (var1 > 0x8000 or var2 > 0x8000) or (var1 < 0x0000 or var2 < 0x0000):
-    print(var1, var2)
+if (adr1 > 0x8000 or adr2 > 0x8000) or (adr1 < 0x0000 or adr2 < 0x0000):
+    print(adr1, adr2)
     exit()
 sleep(0.1)
-for cadr in range(var1, var2):
+for cadr in range(adr1, adr2):
     for i in range(15):
         adr[i].value = (cadr >> i) & 1
     ce.on()
