@@ -1,6 +1,7 @@
 from gpiozero import DigitalInputDevice, DigitalOutputDevice
 from EEPROM_INFO import *
 from time import sleep
+import sys, os
 
 ce = DigitalOutputDevice(pin=CE_PIN, active_high=False)
 we = DigitalOutputDevice(pin=WE_PIN, active_high=False)
@@ -13,23 +14,26 @@ for pin in IO_PINS:
 for pin in ADDR_PINS:
     adr.append(DigitalOutputDevice(pin=pin))
 
-adr1 = int(input("0x"), 16)
-adr2 = int(input("0x"), 16)
+if len(sys.argv) > 1:
+    file_name = sys.argv[1]
+else:
+    file_name = input("file:")
 
-if (adr1 > 0x8000 or adr2 > 0x8000) or (adr1 < 0x0000 or adr2 < 0x0000):
-    print(adr1, adr2)
-    exit()
+file = open(file_name, "wb")
+byte_arr = bytearray(EEPROM_SIZE)
 sleep(0.1)
-for cadr in range(adr1, adr2):
+for cadr in range(0, EEPROM_SIZE):
     for i in range(15):
         adr[i].value = (cadr >> i) & 1
     ce.on()
-    sleep(0.00001)
     oe.on()
     sleep(0.00001)
     result = 0
     for i in range(8):
         result |= io[i].value << i
+    byte_arr[cadr] = result
     oe.off()
     ce.off()
-    print(f"{hex(cadr):<7} {bin(result):<11} {hex(result)}")
+    sleep(0.00001)
+file.write(bytes(byte_arr))
+file.close()

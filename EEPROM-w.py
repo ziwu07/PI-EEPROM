@@ -1,16 +1,16 @@
 from gpiozero import DigitalOutputDevice, DigitalInputDevice
-from pinout import *
+from EEPROM_INFO import *
 from time import sleep
 
-ce = DigitalOutputDevice(pin=ce_pin, active_high=False)
-oe = DigitalOutputDevice(pin=oe_pin, active_high=False)
-we = DigitalOutputDevice(pin=we_pin, active_high=False)
+ce = DigitalOutputDevice(pin=CE_PIN, active_high=False)
+oe = DigitalOutputDevice(pin=OE_PIN, active_high=False)
+we = DigitalOutputDevice(pin=WE_PIN, active_high=False)
 
 io: list[DigitalOutputDevice] = list()
 adr: list[DigitalOutputDevice] = list()
-for pin in io_pin_list:
+for pin in IO_PINS:
     io.append(DigitalOutputDevice(pin=pin))
-for pin in adr_pin_list:
+for pin in ADDR_PINS:
     adr.append(DigitalOutputDevice(pin=pin))
 
 adr1 = int(input("0x"), 16)
@@ -36,7 +36,7 @@ for cadr in range(adr1, adr2):
     we.off()
     print(hex(cadr))
     io[7].close()
-    io7 = DigitalInputDevice(pin=io_pin_list[7], pull_up=False)
+    io7 = DigitalInputDevice(pin=IO_PINS[7], pull_up=False)
     oe.on()
     io7_value = io7.value
     while io7_value != (input_var >> 7) & 1:
@@ -49,4 +49,4 @@ for cadr in range(adr1, adr2):
     oe.off()
     ce.off()
     io7.close()
-    io[7] = DigitalOutputDevice(pin=io_pin_list[7])
+    io[7] = DigitalOutputDevice(pin=IO_PINS[7])
