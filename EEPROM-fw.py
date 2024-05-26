@@ -69,7 +69,6 @@ for page_value in range(0, EEPROM_SIZE >> 6):
     sleep(0.000001)
     we.off()
 
-    print(hex(page_value << 6), hex(~((~page_value) << 6)))
 
     io[7].close()
     io7 = DigitalInputDevice(pin=IO_PINS[7], pull_up=False)
@@ -82,7 +81,6 @@ for page_value in range(0, EEPROM_SIZE >> 6):
         oe.on()
         sleep(0.00001)
         io7_value = io7.value
-        print(hex(page_value << 6), hex(~((~page_value) << 6)), "writing")
 
     oe.off()
     ce.off()
