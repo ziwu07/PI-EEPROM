@@ -69,20 +69,4 @@ for page_value in range(0, EEPROM_SIZE >> 6):
     sleep(0.00000015)
     we.off()
 
-
-    io[7].close()
-    io7 = DigitalInputDevice(pin=IO_PINS[7], pull_up=False)
-    oe.on()
-    io7_value = io7.value
-
-    while io7_value != (data >> 7) & 1:
-        oe.off()
-        sleep(0.00005)
-        oe.on()
-        sleep(0.00001)
-        io7_value = io7.value
-
-    oe.off()
-    ce.off()
-    io7.close()
-    io[7] = DigitalOutputDevice(pin=IO_PINS[7])
+    sleep(0.011)

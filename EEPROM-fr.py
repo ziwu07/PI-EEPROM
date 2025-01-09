@@ -1,5 +1,5 @@
 from gpiozero import DigitalInputDevice, DigitalOutputDevice
-from EEPROM-INFO import *
+from EEPROM_INFO import *
 from time import sleep
 import sys, os
 
@@ -19,7 +19,10 @@ if len(sys.argv) > 1:
 else:
     file_name = input("file:")
 
-file = open(file_name, "wb")
+if sys.argv[1] == "--":
+    file = sys.stdout.buffer
+else:
+    file = open(file_name, "wb")
 byte_arr = bytearray(EEPROM_SIZE)
 sleep(0.1)
 for cadr in range(0, EEPROM_SIZE):
@@ -27,13 +30,13 @@ for cadr in range(0, EEPROM_SIZE):
         adr[i].value = (cadr >> i) & 1
     ce.on()
     oe.on()
-    sleep(0.00001)
+    sleep(0.0000002)
     result = 0
     for i in range(8):
         result |= io[i].value << i
     byte_arr[cadr] = result
     oe.off()
     ce.off()
-    sleep(0.00001)
-file.write(bytes(byte_arr))
+    sleep(0.0000002)
+file.write(byte_arr)
 file.close()

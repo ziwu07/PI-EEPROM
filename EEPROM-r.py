@@ -1,5 +1,5 @@
 from gpiozero import DigitalInputDevice, DigitalOutputDevice
-from EEPROM-INFO import *
+from EEPROM_INFO import *
 from time import sleep
 
 ce = DigitalOutputDevice(pin=CE_PIN, active_high=False)
@@ -24,9 +24,8 @@ for cadr in range(adr1, adr2):
     for i in range(15):
         adr[i].value = (cadr >> i) & 1
     ce.on()
-    sleep(0.00001)
     oe.on()
-    sleep(0.00001)
+    sleep(0.0000002)
     result = 0
     for i in range(8):
         result |= io[i].value << i

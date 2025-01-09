@@ -1,5 +1,5 @@
 from gpiozero import DigitalOutputDevice, DigitalInputDevice
-from EEPROM-INFO import *
+from EEPROM_INFO import *
 from time import sleep
 
 ce = DigitalOutputDevice(pin=CE_PIN, active_high=False)
