@@ -1,5 +1,5 @@
 from gpiozero import DigitalInputDevice, DigitalOutputDevice
-from EEPROM_INFO import *
+from EEPROM-INFO import *
 from time import sleep
 import sys, os
 
